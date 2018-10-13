@@ -160,14 +160,14 @@ for(let i = 0 ; i< 10 ; i++){
     
 
 instanceTween.run()
-// Sequence({
-//     0 : () => {
-//         instanceTween.init()
-//     },
-//     1000 : () => {
-//         instanceTween.run()
-//     },
-//     2000 : () => {
-//         console.log('2000')
-//     }
-// })
+Sequence({
+    0 :() => {
+        instanceTween.init()
+    },
+    1000 : () => {
+        instanceTween.run()
+    },
+    2000 : () => {
+        console.log('2000')
+    }
+})
