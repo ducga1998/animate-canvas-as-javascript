@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .OY{
+            position: absolute;
+            width : 2px;
+            height: 800px;
+            left : 1000px;
+            background-color: black;
+        }
+        .OX {
+            position: absolute;
+            height: 2px;
+            width: 1500px;
+            top  :800px;
+            background-color: black
+        }
+        .view {
+            position: relative;
+            /* transform: scale(0.3) */
+
+        }
+    </style>
+</head>
+<body>
+    <div class="view">
+        <div class ="OX"></div>
+        <div class ="OY"></div>
+            <canvas width = "3000px" height = "3000px" id= "canvas"></canvas>
+    </div>
+    
+    
+    <script src= "./lirRocket.js"></script>
+</body>
+</html>
