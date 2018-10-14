@@ -1,10 +1,3 @@
-
-// this is bong bong
-/*
-    input : context  , x, y
-    output : canvas circle
-
-*/
 function Sequence(obj) {
     Object.keys(obj).map(item => {
         setTimeout(obj[item], item)
@@ -22,6 +15,16 @@ class Vector {
     substract(vec) {
         this.x -= vec.x
         this.y -= vec.y
+    }
+    multiply(v) {
+        if (v instanceof Vector) {
+            this.x *= v.x;
+            this.y *= v.y;
+        } else {
+            this.x *= v;
+            this.y *= v;
+        }
+        return this;
     }
     // convert deg => rad
     static deg2rad(deg) {
@@ -63,7 +66,6 @@ class Particle {
             this.y = 0
             console.log("ahhi")
         }
-
         this.render()
         this.cosPosition()
     }
@@ -94,7 +96,6 @@ class Particle {
     }
     
 }
-
 // factorry Particle : ))
 // mnơi tạo ra bóng 
 class Tween {
@@ -123,10 +124,8 @@ class Tween {
             }, props
         )
     }
-
     createParticle() {
         const R = Math.random() * 100
-        // console
         if(this.emti){
             const instanceParticle = new Particle(this.canvas, this.x, this.y, R , this.props)
         this.particles.push(instanceParticle)
@@ -138,30 +137,31 @@ class Tween {
     run() {
         let count = 0
         this.particles.map(item => {
-
-            
-            // const newVector = new Vector(count, count)
-            // item.setForce(newVector)
             item.render()
         })
     }
+    // detect impact 
+    detectImpact( p1, p2){
+        const distance =  ((p1.pos.x - p2.pos.x) **2 + (p2.pos.y -p1.pos.y)**2) **(1/2)
+        if(distance < (p1.R + p2.R)) {
+           p1.pos.multiply(new Vector(-1, -1))
+           p2.pos.multiply(new Vector(-1 ,-1))
+        }
+    }
     changePositionAllParticle() {
         // console.log('run')
-
         this.context.clearRect(0 , 0 , this.canvas.width, this.canvas.height)
         this.particles.map(particle => {
+            particle.pos.add(new Vector(0, 10))
             // particle.clearRect()
             particle.setForce(Vector.fromAngle(this.props.windAngle, this.props.windSpeed));
-            // particle.setForce(new Vector(1 , 10))
-            // particle.setForce(new Vector(  1 ,0))
-            // console.log(particle.pos)
-            // if(particle.pos.y > 800){
-            //     console.log('ok')
-            //     particle.pos.y = 0
-            //     particle.pos.x = 1000
-            // }
-            particle.render()
-            
+            particle.render()   
+        })
+        
+    }
+    changeWhenTime1000ms(){
+        this.particles.map(p => {
+            p.setForce(new Vector(10 , -33))
         })
     }
 
@@ -170,7 +170,6 @@ class Tween {
 }
 const canvas = document.getElementById('canvas')
 const instanceTween = new Tween(canvas, 1000, 300 , {
-    
 		"size": 1,
 		"count": 1,
 		"rate": 10000,
@@ -194,9 +193,24 @@ Sequence({
         instanceTween.run()
         instanceTween.emti = false
     },
-    3000: (function change () {
-          // instanceTween.emti = false
+    3000: function change () {
       instanceTween.changePositionAllParticle()
-      requestAnimationFrame(change)
-    })()
+     requestAnimationFrame(change)
+    },
+    // 7000 : function checkImpact()  {
+    //     // console.log('7000')
+    //    for(let i = 0 ; i < instanceTween.particles.lenght ; i++) {
+    //         for(let j = 0 ; j< instanceTween.particle.lenght; j++) {
+    //             if(i !== j ){
+    //                 instanceTween.detectImpact(instanceTween.particle[i], instanceTween.particles[j])
+    //             }
+    //         }
+      
+    //    }
+    //    requestAnimationFrame(checkImpact)
+    // }
+    // 10000 :() => {
+    //     console.log('10000 ms')
+    //     instanceTween.changeWhenTime1000ms()
+    // }
 })
